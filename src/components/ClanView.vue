@@ -37,7 +37,7 @@ export default {
     // or call reject(reason) if something goes wrong
 
     var xmlhttp = new XMLHttpRequest()
-    var url = 'http://localhost:8008/members'
+    var url = 'http://coc.api.christophvoigt.com/members'
 
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
