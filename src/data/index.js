@@ -1,38 +1,54 @@
+import Moment from '../../node_modules/moment/moment.js'
+
 var coc = {}
 
-coc.data = function () {
+var TYPES = {
+    'undefined'        : 'undefined',
+    'number'           : 'number',
+    'boolean'          : 'boolean',
+    'string'           : 'string',
+    '[object Function]': 'function',
+    '[object RegExp]'  : 'regexp',
+    '[object Array]'   : 'array',
+    '[object Date]'    : 'date',
+    '[object Error]'   : 'error'
+  },
+  TOSTRING = Object.prototype.toString;
 
-  return new Promise((resolve, reject) => {
+function type(o) {
+  return TYPES[typeof o] || TYPES[TOSTRING.call(o)] || (o ? 'object' : 'null');
+};
 
-    var xmlhttp = new XMLHttpRequest()
-    var url = 'http://localhost:8008/members'
+coc.request = function (method, url) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest()
+    xhr.open(method, url)
+    xhr.onload = resolve
+    xhr.onerror = reject
+    xhr.send()
+  })
+}
 
-    xmlhttp.onreadystatechange = function () {
-      if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-        var data = []
-        data = JSON.parse(xmlhttp.responseText)
+var formatDate = function (unix) {
+  return Moment.unix(unix.toString()).format("DD.MM.YY")
+}
 
-        data.forEach(function (key, index) {
-          key.trophies = '<a href="#!/member/' + key.name + '/trophies">' + key.trophies + '</a>'
-          key.donations = '<a href="#!/member/' + key.name + '/donations">' + key.donations + '</a>'
-          key.donationsReceived = '<a href="#!/member/' + key.name + '/donationsReceived">' + key.donationsReceived + '</a>'
+coc.trophies = function (data){
+  var helper = {
+    labels: [],
+    series: [[]]
+  }
 
-        })
+  var loop = JSON.parse(data)
 
-        // console.log(data)
-        // console.log(data[0].name)
-        // return data[0]
-        resolve(data)
-      } else {
-        reject
-      }
+  loop.forEach(function (dataset, index) {
+    if (index % 24 === 0 && helper.labels.length < 14){
+      helper.labels.push(formatDate(dataset.date))
+      helper.series[0].push(dataset.trophies)
     }
-
-    xmlhttp.open('GET', url, true)
-    xmlhttp.send()
-
   })
 
+  return helper
 }
 
 export default coc

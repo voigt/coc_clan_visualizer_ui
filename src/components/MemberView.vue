@@ -17,8 +17,20 @@
         entry in data
         | filterBy filterKey
         | orderBy sortKey sortOrders[sortKey]">
-        <td v-for="key in columns">
-          {{{entry[key]}}}
+        <td>
+          {{{entry.level}}}
+        </td>
+        <td>
+          {{{entry.name}}}
+        </td>
+        <td>
+          <a href="#!/member/{{entry.name}}/trophies" :item="hello">{{{entry.trophies}}}</a>
+        </td>
+        <td>
+          <a href="#!/member/{{entry.name}}/donations">{{{entry.donations}}}</a>
+        </td>
+        <td>
+          <a href="#!/member/{{entry.name}}/donationsReceived">{{{entry.donationsReceived}}}</a>
         </td>
       </tr>
     </tbody>

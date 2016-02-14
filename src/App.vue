@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <clan-view></clan-view>
+    <a href="#!/clan">clan</a> -
+    <a href="#!/bar">bar</a>
+    <router-view
+      keep-alive>
+    </router-view>
+    <!-- <clan-view></clan-view> -->
   </div>
 </template>
 

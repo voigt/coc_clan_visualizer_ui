@@ -15,6 +15,7 @@
 <script>
 // import coc from '../data'
 import MemberView from './MemberView'
+import coc from '../data/index'
 
 export default {
   components: {
@@ -26,41 +27,32 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
-      msg: 'Not loaded yet',
+      msg: '',
       searchQuery: '',
       gridColumns: [ 'level', 'name', 'trophies', 'donations', 'donationsReceived'],
       gridData: []
     }
   },
-  asyncData: (resolve, reject) => {
-    // load data and call resolve(data)
-    // or call reject(reason) if something goes wrong
+  route: {
+    data ({ to }) {
+      // Promise sugar syntax: return an object that contains Promise fields.
+      // http://router.vuejs.org/en/pipeline/data.html#promise-sugar
+      // How To Make a Promise: http://stackoverflow.com/questions/30008114/how-do-i-promisify-native-xhr
 
-    var xmlhttp = new XMLHttpRequest()
-    var url = 'http://coc.api.christophvoigt.com/members'
+      var url = 'http://coc.api.christophvoigt.com/members'
 
-    xmlhttp.onreadystatechange = function () {
-      if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-        var data = []
-        data = JSON.parse(xmlhttp.responseText)
+      return coc.request('GET', url)
+              .then(function (e) {
+                var daten = JSON.parse(e.target.response)
 
-        data.forEach(function (key, index) {
-          key.trophies = '<a href="#!/member/' + key.name + '/trophies">' + key.trophies + '</a>'
-          key.donations = '<a href="#!/member/' + key.name + '/donations">' + key.donations + '</a>'
-          key.donationsReceived = '<a href="#!/member/' + key.name + '/donationsReceived">' + key.donationsReceived + '</a>'
-
-        })
-
-        resolve({
-          msg: 'KG10',
-          gridData: data
-        })
-      }
+                return {
+                  msg: 'KG10',
+                  gridData: daten
+                }
+              }, function (e) {
+                console.log('Something went wrong!')
+              })
     }
-
-    xmlhttp.open('GET', url, true)
-    xmlhttp.send()
-
   }
 }
 </script>
