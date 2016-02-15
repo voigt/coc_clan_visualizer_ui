@@ -29,7 +29,7 @@ export default {
       // its initial state.
       msg: '',
       searchQuery: '',
-      gridColumns: [ 'level', 'name', 'trophies', 'donations', 'donationsReceived'],
+      gridColumns: [ 'level', 'name', 'trophies', 'donations'],
       gridData: []
     }
   },

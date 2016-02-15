@@ -33,7 +33,7 @@ var formatDate = function (unix) {
   return Moment.unix(unix.toString()).format("DD.MM.YY")
 }
 
-coc.trophies = function (data){
+coc.extractData = function (data, stats){
   var helper = {
     labels: [],
     series: [[]]
@@ -41,12 +41,57 @@ coc.trophies = function (data){
 
   var loop = JSON.parse(data)
 
-  loop.forEach(function (dataset, index) {
-    if (index % 24 === 0 && helper.labels.length < 14){
-      helper.labels.push(formatDate(dataset.date))
-      helper.series[0].push(dataset.trophies)
-    }
-  })
+  if (stats === 'level') {
+
+    loop.forEach(function (dataset, index) {
+      if (index % 24 === 0 && helper.labels.length < 14){
+        helper.labels.push(formatDate(dataset.date))
+        helper.series[0].push(dataset.trophies)
+      }
+    })
+
+  }
+
+  if (stats === 'trophies') {
+
+    loop.forEach(function (dataset, index) {
+      if (index % 24 === 0 && helper.labels.length < 14){
+        helper.labels.push(formatDate(dataset.date))
+        helper.series[0].push(dataset.trophies)
+      }
+    })
+
+  }
+
+  if (stats === 'donations') {
+    helper.series.push([])
+
+    loop.forEach(function (dataset, index) {
+
+      if (index % 24 === 0 && helper.labels.length < 14){
+        helper.labels.push(formatDate(dataset.date))
+        helper.series[0].push(dataset.donations)
+        helper.series[1].push(dataset.donationsReceived)
+
+      }
+    })
+  }
+
+  if (stats === '') {
+    helper.series.push([])
+    helper.series.push([])
+
+    loop.forEach(function (dataset, index) {
+
+      if (index % 24 === 0 && helper.labels.length < 14){
+        helper.labels.push(formatDate(dataset.date))
+        helper.series[0].push(dataset.trophies)
+        helper.series[1].push(dataset.donations)
+        helper.series[2].push(dataset.donationsReceived)
+      }
+
+    })
+  }
 
   return helper
 }

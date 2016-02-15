@@ -18,7 +18,7 @@
 
 <script>
   // import Chart from './Chart'
-  import Chartist from '../../node_modules/chartist-vuejs/index.js'
+  // import Chartist from '../../node_modules/chartist-vuejs/index.js'
   import coc from '../data/index'
 
   export default {
@@ -30,6 +30,7 @@
       return {
         msg: '',
         member: '',
+        stats: '',
         chartData: {
           labels: [],
           series: [[]]
@@ -46,17 +47,18 @@
         // Promise sugar syntax: return an object that contains Promise fields.
         // http://router.vuejs.org/en/pipeline/data.html#promise-sugar
         // How To Make a Promise: http://stackoverflow.com/questions/30008114/how-do-i-promisify-native-xhr
+        if (!to.params.stats) {to.params.stats = ''}
 
         var url = 'http://coc.api.christophvoigt.com/member/' + to.params.name
 
         return coc.request('GET', url)
                 .then(function (e) {
-                  var daten = coc.trophies(e.target.response)
+                  var daten = coc.extractData(e.target.response, to.params.stats)
 
                   // console.log(daten)
 
                   return {
-                    member: to.params.name + '\'s trophies',
+                    member: to.params.name + '\'s ' + to.params.stats,
                     chartData: daten
                   }
                 }, function (e) {

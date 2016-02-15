@@ -18,20 +18,20 @@
         | filterBy filterKey
         | orderBy sortKey sortOrders[sortKey]">
         <td>
-          {{{entry.level}}}
+          <a href="#!/member/{{entry.name}}/level">{{{entry.level}}}</a>
         </td>
         <td>
-          {{{entry.name}}}
+          <a href="#!/member/{{entry.name}}/">{{{entry.name}}}</a>
         </td>
         <td>
           <a href="#!/member/{{entry.name}}/trophies" :item="hello">{{{entry.trophies}}}</a>
         </td>
         <td>
-          <a href="#!/member/{{entry.name}}/donations">{{{entry.donations}}}</a>
+          <a href="#!/member/{{entry.name}}/donations">{{{entry.donations}}}</a> / <a href="#!/member/{{entry.name}}/donations">{{{entry.donationsReceived}}}</a>
         </td>
-        <td>
+<!--        <td>
           <a href="#!/member/{{entry.name}}/donationsReceived">{{{entry.donationsReceived}}}</a>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>

@@ -19,7 +19,10 @@ router.map({
   '/clan': {
     component: ClanView
   },
-  '/member/:name/trophies': {
+  '/member/:name/:stats': {
+    component: Member
+  },
+  '/member/:name/': {
     component: Member
   },
   '/bar': {
