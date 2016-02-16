@@ -18,7 +18,7 @@
 
 <script>
   // import Chart from './Chart'
-  // import Chartist from '../../node_modules/chartist-vuejs/index.js'
+  import Chartist from '../../node_modules/chartist-vuejs/index.js'
   import coc from '../data/index'
 
   export default {
