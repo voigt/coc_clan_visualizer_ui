@@ -46,7 +46,7 @@ coc.extractData = function (data, stats){
     loop.forEach(function (dataset, index) {
       if (index % 24 === 0 && helper.labels.length < 14){
         helper.labels.push(formatDate(dataset.date))
-        helper.series[0].push(dataset.trophies)
+        helper.series[0].push(dataset.level)
       }
     })
 
